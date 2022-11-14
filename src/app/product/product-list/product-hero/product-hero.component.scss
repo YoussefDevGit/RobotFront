@@ -1,0 +1,14 @@
+._hero {
+    &__content {
+        // background-color: #5D0F29;
+        background: linear-gradient(180deg, #0d47a1 40%, rgba(13, 71, 161, 0.2) 100%);
+        position: relative;
+    }
+    &__particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+}

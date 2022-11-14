@@ -1,0 +1,150 @@
+<div class="mt-32">
+    <div class="container">
+        <div class="grid grid-cols-12 gap-8">
+            <div class="col-span-12 md:col-span-7 xl:col-span-8 border p-5">
+                <h1 class="_title font-medium">{{prod.designation}}</h1>
+                <swiper #swiperRef1 [loop]="true" [spaceBetween]="10" [navigation]="true" [thumbs]="{ swiper: thumbsSwiper }" class="mySwiper2">
+                    <ng-template swiperSlide *ngFor="let p of prod.photosProduit">
+                        <img class="w-full" [src]="GetImage(p.path)" />
+                    </ng-template>
+                </swiper>
+                <swiper #swiperRef2 *ngIf="prod.photosProduit" (swiper)="thumbsSwiper = $event" [loop]="true" [slidesPerView]="prod.photosProduit.length" [freeMode]="true" [watchSlidesProgress]="true" class="mySwiper">
+                    <ng-template swiperSlide *ngFor="let p of prod.photosProduit">
+                        <img class="max-h-20" [src]="GetImage(p.path)" />
+                    </ng-template>
+                </swiper>
+                <div class="ll-content mt-8">
+                    <h3>Description du produit:</h3>
+                    <div class="text-gray-900">
+                        {{prod.description}}
+                    </div>
+
+                    <ng-container *ngIf="listDetails.length > 0">
+                        <h5>Détails:</h5>
+                        <ul>
+                            <li class="list-item" *ngFor="let item of listDetails">
+                                {{item}}
+                            </li>
+                        </ul>
+                    </ng-container>
+                    <ng-container *ngIf="listSpec">
+                        <h5>Spécification:</h5>
+                        <ul>
+                            <li class="list-item">
+                                {{prod.idTypeNavigation.libelle}}: {{listSpec}}.
+                            </li>
+                        </ul>
+                    </ng-container>
+                    <ng-container *ngIf="listApps.length > 0">
+                        <h5>Applications du produits:</h5>
+                        <ul>
+                            <li class="list-item" *ngFor="let item of listApps">
+                                <a class="text-gray-800 text-lg" [routerLink]="['/projets',item.idProjet]">{{item.libelle}}</a>
+                            </li>
+                        </ul>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="col-span-12 md:col-span-5 xl:col-span-4">
+                <div class="border">
+                    <div class="border-b text-center pt-10 pb-8">
+                        <div class="font-medium text-lg mt-3 text-gray-400 tracking-wider">Prix</div>
+                        <div class=" text-4xl font-semibold my-primary-color">{{GetPrices(prod.optionsProduit)}}</div>
+                    </div>
+                    <div class="border-b text-center pt-10 pb-8" *ngIf="prod.optionsProduit">
+                        <div class="font-medium text-lg mt-3 pb-10 text-gray-400 tracking-wider">
+                            {{prod.idTypeNavigation.libelle}} <span *ngIf="selectedOptionProduct"> :
+                                {{selectedOptionProduct.valeurType}}</span></div>
+                        <button type="button" style="margin: 0 3px;" class="btn my-btn-primary" (click)="setSelectedOptionProduct(opt)" *ngFor="let opt of prod.optionsProduit">{{opt.valeurType}}</button>
+                        <div class=" my-primary-color-dark text-4xl pt-10 font-semibold" *ngIf="selectedOptionProduct && prod.optionsProduit && prod.optionsProduit.length > 1">
+                            {{selectedOptionProduct.prixUnitaire}} MAD</div>
+                    </div>
+                    <div class="border-b p-5" *ngIf="prod.categoriesProduit">
+                        <span class="underline">Catégories :</span> {{ConcatCategories}}.
+                    </div>
+                    <div class="border-b p-5" *ngIf="selectedOptionProduct && selectedOptionProduct.description">
+                        <span class="underline">Description:</span> {{selectedOptionProduct.description}}
+                    </div>
+                    <div class="border-b px-5 pt-10 pb-8 text-center">
+                        <p class="text-gray-400 mb-4">Le prix n'inclut pas les frais de livraison.</p>
+                        <div>
+                            <mat-form-field class="w-full" appearance="outline">
+                                <mat-label>Quantité</mat-label>
+                                <button matPrefix mat-icon-button (click)="remQte()">
+                                    <mat-icon>remove</mat-icon>
+                                </button>
+                                <input class="text-lg" placeholder="Quantité" matInput (keydown)="checkQte($event)" [(ngModel)]="qteProd" [ngModelOptions]="{standalone:true}">
+                                <button matSuffix mat-icon-button (click)="addQte()">
+                                    <mat-icon>add</mat-icon>
+                                </button>
+                            </mat-form-field>
+                            <button class="w-full my-btn-primary" mat-flat-button color="primary" (click)="addToCart()">
+                                <button matPrefix mat-icon-button>
+                                    <mat-icon>add_shopping_cart</mat-icon>
+                                </button> Ajouter au panier
+                            </button>
+                        </div>
+                    </div>
+
+                    <div *ngIf="added || invalidSelect" class="px-5 pt-2 pb-2 text-center">
+                        <div *ngIf="added" class="alert alert-success" role="alert">Produit ({{added}}) est ajouté avec succes au panier.
+                        </div>
+                        <div *ngIf="invalidSelect" class="alert alert-danger" role="alert">Veuillez choisi un produit avant d'ajouter au panier.
+                        </div>
+                    </div>
+                </div>
+                <div class="border mt-5 px-5 py-10 text-center">
+                    <p class="font-bold mb-3">Vous n'avez pas trouvez ce que vous voulez ?</p>
+                    <button [routerLink]="['/contact']" mat-stroked-button class="py-2 px-12 text-lg font-bold text-gray-700">Contactez
+                        nous</button>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <div class="container" *ngIf="prodCat.length>0">
+            <ng-container>
+                <div class="text-left mb-8">
+                    <h3><a class="text-gray-900">Produits similaires:</a></h3>
+                </div>
+                <swiper [lazy]="true" [navigation]="true" [slidesPerView]="1" [spaceBetween]="30" [pagination]="{clickable: true}" [breakpoints]="{
+                    '640': {
+                      slidesPerView: 1,
+                      spaceBetween: 20
+                    },
+                    '768': {
+                      slidesPerView: 3,
+                      spaceBetween: 40
+                    },
+                    '1024': {
+                      slidesPerView: 4,
+                      spaceBetween: 50
+                    }
+                  }" class="mySwiper">
+                    <ng-template swiperSlide *ngFor="let product of prodCat">
+                        <div class="product-grid">
+                            <div class="product-image cursor-pointer" (click)="redirectTo(['/products',product.idProduit])">
+                                <a (click)="redirectTo(['/products',product.idProduit])" class="image">
+                                    <img class="max-h-80 min-h-80" style="object-fit: cover;" [src]="GetImage(product.photosProduit[0].path)" (error)="GetErrorImage($event)">
+                                </a>
+                                <a (click)="redirectTo(['/products',product.idProduit])" class="add-to-cart">Voir
+                                    détails</a>
+                            </div>
+                            <div class="product-content">
+                                <h3 style="white-space: nowrap; overflow:hidden;" class="title cursor-pointer"><a (click)="redirectTo(['/products',product.idProduit])">{{ product.designation
+                                        }}</a></h3>
+                                <div class="category" style="white-space: nowrap; overflow:hidden;">{{ product.description }}
+                                </div>
+                                <div class="price" style="white-space: nowrap; overflow:hidden;">
+                                    {{GetPrices(product.optionsProduit)}}
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </swiper>
+                <hr>
+                <br>
+            </ng-container>
+        </div>
+    </div>
+</div>

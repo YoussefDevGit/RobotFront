@@ -1,0 +1,14 @@
+<input [ngStyle]="{'visibility': 'hidden'}" [multiple]="isMultiple" type="file" #file placeholder="Choisissez Fichier Test" (change)="viderMessage();  uploadFile(file.files);" [accept]="filesTypes" style="display:none;">
+<!-- <button type="button" class="btn btn-info" (click)="file.click();"><span class="material-icons">
+                backup
+        </span> Upload Vos Fichiers </button> -->
+<button mat-mini-fab [color]="color" (click)="file.click();">
+        <mat-icon>add_a_photo</mat-icon>
+</button> &nbsp;&nbsp;
+<!-- <div *ngFor="let item of PrgMess">
+        <span class="upload" *ngIf="item.progress > 0">
+                <mat-progress-bar mode="determinate" value="{{item.progress}}"></mat-progress-bar>
+                {{item.progress}}%
+        </span><span class="upload" *ngIf="item.messages != ''"> {{item.messages }}</span>
+</div> -->
+<!--accept="application/pdf,application/vnd.ms-word"-->

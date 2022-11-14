@@ -1,0 +1,99 @@
+<div class="mt-32">
+    <div class="container mt-5 p-3 rounded cart">
+        <div class="row no-gutters">
+            <div class="col-md-8">
+                <div class="product-details mr-2">
+                    <div class="d-flex flex-row align-items-center">
+                        <i class="fa fa-long-arrow-left"></i><span class="ml-2"> Continuer vos achats</span>
+                    </div>
+                    <hr />
+                    <div class="d-flex justify-content-between">
+                        <span>Vous avez {{ this.panier.produits.length }} elements dans votre panier</span>
+                        <div class="d-flex flex-row align-items-center">
+                            <!-- vider panier -->
+                            <button type="button" (click)="ViderPanier()">Vider Panier</button>
+                        </div>
+                    </div>
+                    <ng-container *ngFor="let item of panier.produits">
+                        <div class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded">
+                            <div class="d-flex flex-row">
+                                <img class="rounded" [src]="GetImage(item.image)" width="40" />
+                                <div class="ml-2">
+                                    <span class="font-weight-bold d-block">{{ item.libelle }}</span>
+                                    <span class="spec d-block">{{ item.type + ': ' + item.option }}</span>
+                                    <span class="spec d-block">Prix unitaire: {{ item.prixUnitaire }}</span>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row align-items-center">
+                                <span class="d-block">{{ item.quantite }}</span><span class="d-block ml-5 font-weight-bold">{{
+                                    item.prixUnitaire * item.quantite }}</span><i class="fa fa-trash-o ml-3 text-black-50"></i>
+                            </div>
+                        </div>
+                        <!-- <div class="mt-3 items rounded">
+
+              <div class="row p-2">
+                  <div class="col-md-10">
+                      <div class="d-flex flex-row">
+                          <img class="rounded" [src]="GetImage(item.image)" width="40" />
+                          <div class="ml-2">
+                              <span class="font-weight-bold d-block">{{ item.libelle }}</span>
+                              <span class="spec d-block">{{ item.type + ': ' + item.option }}</span>
+                              <span class="spec d-block">Prix unitaire: {{ item.prixUnitaire }}</span>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-1 text-right align-middle">{{ item.quantite }}</div>
+                  <div class="col-md-1 text-right">
+                      {{ item.prixUnitaire * item.quantite }}
+                      <i class="fa fa-trash-o ml-3 text-black-50"></i>
+                  </div>
+              </div>
+          </div> -->
+                    </ng-container>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="payment-info">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>Informations de livraison</span>
+                    </div>
+                    <div>
+                        <label class="credit-card-label">Nom</label><input type="text" class="form-control credit-inputs" placeholder="nom" [(ngModel)]="panier.infosLivraison.nomComplet" [ngModelOptions]="{ standalone: true }" />
+                    </div>
+                    <!-- <div>
+                        <label class="credit-card-label">Prenom</label><input type="text" class="form-control credit-inputs" placeholder="prenom" [(ngModel)]="panier.infosLivraison.prenom" [ngModelOptions]="{ standalone: true }" />
+                    </div> -->
+                    <div>
+                        <label class="credit-card-label">Email</label><input type="text" class="form-control credit-inputs" placeholder="email" [(ngModel)]="panier.infosLivraison.email" [ngModelOptions]="{ standalone: true }" />
+                    </div>
+                    <div>
+                        <label class="credit-card-label">Tele</label><input type="text" class="form-control credit-inputs" placeholder="Tele" [(ngModel)]="panier.infosLivraison.numTel" [ngModelOptions]="{ standalone: true }" />
+                    </div>
+                    <div>
+                        <label class="credit-card-label">Adresse</label><input type="text" class="form-control credit-inputs" placeholder="adresse" [(ngModel)]="panier.infosLivraison.adresse" [ngModelOptions]="{ standalone: true }" />
+                    </div>
+                    <div>
+                        <label class="credit-card-label">Ville</label><input type="text" class="form-control credit-inputs" placeholder="ville" [(ngModel)]="panier.infosLivraison.ville" [ngModelOptions]="{ standalone: true }" />
+                    </div>
+                    <div>
+                        <label class="credit-card-label">Code postal</label><input type="text" class="form-control credit-inputs" placeholder="code postal" [(ngModel)]="panier.infosLivraison.codePostal" [ngModelOptions]="{ standalone: true }" />
+                    </div>
+                    <hr class="line" />
+                    <div class="d-flex justify-content-between information">
+                        <span>Sous-total</span><span>{{ getSomme() }} MAD</span>
+                    </div>
+                    <div class="d-flex justify-content-between information"><span>Livraison</span><span>0 MAD</span>
+                    </div>
+                    <div class="d-flex justify-content-between information">
+                        <span>Totale</span><span>{{ getSomme() }} MAD</span>
+                    </div>
+                    <button class="btn btn-primary btn-block d-flex justify-content-between mt-3" type="button" (click)="checkout()">
+                        <span>{{ getSomme() }} MAD</span><span>Checkout<i
+                                class="fa fa-long-arrow-right ml-1"></i></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

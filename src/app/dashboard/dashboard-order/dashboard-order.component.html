@@ -1,0 +1,212 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header card-header-text">
+                <h3 class="card-title font-weight-bold">Liste des commandes :</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Filtrer par état: </mat-label>
+                            <mat-select [(ngModel)]="selectedEtat" [ngModelOptions]="{ standalone: true }" (ngModelChange)="selectedEtatChange()">
+                                <mat-option [value]="'tous_etats'">-Toutes les commandes-</mat-option>
+                                <mat-option *ngFor="let etat of listEtats" [value]="etat"> {{ etat }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Filtrer par ville: </mat-label>
+                            <mat-select [(ngModel)]="selectedVille" [ngModelOptions]="{ standalone: true }" (ngModelChange)="selectedEtatChange()">
+                                <mat-option [value]="'tous_villes'">-Toutes les villes-</mat-option>
+                                <mat-option *ngFor="let ville of listVilles" [value]="ville"> {{ ville }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="content table-responsive table-full-width">
+                            <table datatable #dataTable class="
+                  order-table
+                  table-auto
+                  ltMd:responsive
+                  table table-striped table-bordered table-sm
+                  row-border
+                  hover
+                " [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Date commande</th>
+                                        <th>Nom</th>
+                                        <th>Tél</th>
+                                        <th>Ville</th>
+                                        <th>État</th>
+                                        <th>Opérations</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let order of orders" class="border">
+                                        <th>{{ order.idCommande }}</th>
+                                        <td>{{ order.dateCommande | date: 'yyyy/MM/dd hh:mm' }}</td>
+                                        <td>{{ order.idLivraisonNavigation.nomComplet | titlecase }}</td>
+                                        <td>{{ order.idLivraisonNavigation.numTel }}</td>
+                                        <td>{{ order.idLivraisonNavigation.ville }}</td>
+                                        <td class="text-center">
+                                            <div [ngClass]="{
+                          'bg-finale ': order.etatCommande === 'FINALE',
+                          'bg-rejet ': order.etatCommande === 'REJET',
+                          'bg-livre ': order.etatCommande === 'LIVRÉ',
+                          'bg-initiale ': order.etatCommande === 'INITIALE'
+                        }" class="
+                          text-center text-gray-100 text-[12px]
+                          bg-opacity-20
+                          rounded-full
+                          px-3
+                          inline-block
+                          font-bold
+                          py-[3px]
+                        ">
+                                                {{ order.etatCommande | titlecase }}
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-round btn-fill" (click)="GetSelectedOrder(order.idCommande); openDialog()">
+                        <span class="material-icons">visibility</span></button
+                      >&nbsp;
+                      <button type="button" class="btn btn-round btn-danger">
+                        <!--(click)="deleteUandE(U)"-->
+                        <span class="material-icons">delete</span>
+                      </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modification commande :-->
+<!--Update-->
+<ng-template #show_comm let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Détails de la commande :</h4>
+        <button type="button" class="close" aria-label="Close" matDialogClose>
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-5 col-md-5 col-sm-12 col-xl-5">
+                <div class="row">
+                    <div class="col-md-12">
+                        <mat-form-field appearance="outline">
+                            <mat-label>État: </mat-label>
+                            <mat-select [(ngModel)]="selectedCommande.etatCommande" [ngModelOptions]="{ standalone: true }">
+                                <mat-option [value]="'tous_etats'">-Toutes les commandes-</mat-option>
+                                <mat-option *ngFor="let etat of listEtats" [value]="etat"> {{ etat }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-12">
+                        <!-- <span class="font-bold">ID:</span> {{selectedCommande.idCommande}} -->
+                        <mat-form-field class="w-full" appearance="outline">
+                            <mat-label>ID: :</mat-label>
+                            <input matInput placeholder="ID" [ngModel]="selectedCommande.idCommande" [ngModelOptions]="{ standalone: true }" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-12">
+                        <!-- <span class="font-bold">Nom complet:</span> {{ selectedCommande.idLivraisonNavigation.nomComplet | titlecase }} -->
+                        <mat-form-field class="w-full" appearance="outline">
+                            <mat-label>Nom complet :</mat-label>
+                            <input matInput placeholder="Nom complet" [(ngModel)]="selectedCommande.idLivraisonNavigation.nomComplet" [ngModelOptions]="{ standalone: true }" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-12">
+                        <!-- <span class="font-bold">Tél:</span> {{selectedCommande.idLivraisonNavigation.numTel?? "-"}} -->
+                        <mat-form-field class="w-full" appearance="outline">
+                            <mat-label>Tél :</mat-label>
+                            <input matInput placeholder="Tél" [(ngModel)]="selectedCommande.idLivraisonNavigation.numTel" [ngModelOptions]="{ standalone: true }" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-12">
+                        <!-- <span class="font-bold">E-mail:</span> {{selectedCommande.idLivraisonNavigation.email?? "-"}} -->
+                        <mat-form-field class="w-full" appearance="outline">
+                            <mat-label>E-mail :</mat-label>
+                            <input matInput placeholder="E-mail" [(ngModel)]="selectedCommande.idLivraisonNavigation.email" [ngModelOptions]="{ standalone: true }" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-12">
+                        <!-- <span class="font-bold">Ville:</span> {{selectedCommande.idLivraisonNavigation.ville ?? "-"}} -->
+                        <mat-form-field class="w-full" appearance="outline">
+                            <mat-label>Ville :</mat-label>
+                            <input matInput placeholder="Ville" [(ngModel)]="selectedCommande.idLivraisonNavigation.ville" [ngModelOptions]="{ standalone: true }" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-12">
+                        <!-- <span class="font-bold">Code postale:</span> {{selectedCommande.idLivraisonNavigation.codePostal?? "-"}} -->
+                        <mat-form-field class="w-full" appearance="outline">
+                            <mat-label>Code postale :</mat-label>
+                            <input matInput placeholder="Code postale" [(ngModel)]="selectedCommande.idLivraisonNavigation.codePostal" [ngModelOptions]="{ standalone: true }" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-12">
+                        <!-- <span class="font-bold">Adresse:</span> {{selectedCommande.idLivraisonNavigation.adresse?? "-"}} -->
+                        <mat-form-field class="w-full" appearance="outline">
+                            <mat-label>Adresse :</mat-label>
+                            <input matInput placeholder="Adresse" [(ngModel)]="selectedCommande.idLivraisonNavigation.adresse" [ngModelOptions]="{ standalone: true }" />
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-7 col-md-7 col-sm-12 col-xl-7">
+                <div class="alert alert-light text-gray-900 px-0 font-bold text-base" role="alert">
+                    Récapitulatif de la commande:
+                </div>
+                <table class="table table-responsive table-striped">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th>Designation</th>
+                            <th>Quantité</th>
+                            <th>Prix unitaire</th>
+                            <th>Montant total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of selectedCommande.detailsCommande">
+                            <td>
+                                {{ item.idOpProduitNavigation.idProduitNavigation.designation + ' (' + item.idOpProduitNavigation.valeurType + ')' }}
+                            </td>
+                            <td class="text-center">{{ item.quantite }}</td>
+                            <td class="text-center">{{ item.prixUnitaire }}</td>
+                            <td class="text-center">{{ item.quantite * item.prixUnitaire }}</td>
+                        </tr>
+                    </tbody>
+                    <tr>
+                        <td colspan="4"></td>
+                    </tr>
+                    <tfoot>
+                        <tr class="bg-gray-100">
+                            <th>Total:</th>
+                            <th></th>
+                            <th></th>
+                            <th class="text-center">{{ GetTotale() }}</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button style="margin-right: 10px" class="clearfix" mat-raised-button type="button" (click)="PutInfosLivraison()" class="btn btn-info btn-fill">
+      Appliquer les modifications
+    </button>
+        <button mat-raised-button matDialogClose class="btn btn-danger btn-fill">Fermer</button>
+    </div>
+</ng-template>

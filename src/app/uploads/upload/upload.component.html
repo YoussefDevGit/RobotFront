@@ -1,0 +1,5 @@
+
+    <input   type="file" #file placeholder="Choisissez Fichier Test"  (change) ="this.messages = '';  this.progress = 0; uploadFile(file.files);" style="display:none;">
+    <button type="button" class="btn btn-info" (click)="file.click();">Upload</button>
+    &nbsp;&nbsp; <span class="upload" *ngIf="progress > 0"><mat-progress-bar mode="determinate" value="{{progress}}"></mat-progress-bar>{{progress}}%</span><span class="upload" *ngIf="this.messages"> {{messages}}</span>
+ <!--accept="application/pdf,application/vnd.ms-word"-->

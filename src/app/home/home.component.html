@@ -1,0 +1,360 @@
+<swiper class="myContainer" [lazy]="true" [slidesPerView]="1" [pagination]="{ dynamicBullets: true }" [autoplay]="{ delay: 8000, disableOnInteraction: false } ">
+    <ng-template swiperSlide *ngFor="let slide of slides; let i = index">
+        <div class="ll-hero">
+            <!-- <ng-particles [id]="'home_hero__particles'" style="z-index: 0;" class="position-fixed ll-hero__particles" [options]="particlesOptions">
+    </ng-particles> -->
+            <ng-particles [id]="'home_hero__particles_'+i" class="ll-hero__particles" [options]="particlesOptions">
+            </ng-particles>
+            <div class="container">
+
+                <div class="grid grid-cols-12 gap-x-6">
+                    <div class="col-span-12 md:col-span-8 lg:col-span-7 xxl:col-span-6 ll-hero-text">
+                        <h1 class="lg:mt-12 text-white font-bold ">
+                            {{slide.titre}}
+                            <!-- <span style="font-size: small;" *ngIf="slide.siteWeb"><a class="text-gray-200"
+                                    [routerLink]="[slide.siteWeb]">Voir plus</a></span> -->
+                            <span *ngIf="slide.siteWeb" style="font-size: small;" class="badge badge-dark" [routerLink]="[slide.siteWeb]"><a class="text-gray-200"
+                                    [routerLink]="[slide.siteWeb]">Voir plus</a></span>
+
+                        </h1>
+                    </div>
+                    <div class="col-span-12 md:col-span-4 lg:col-span-5 xxl:col-span-6 ll-image mt-10 md:mt-0 flex justify-self-center">
+                        <img class="ml-auto " [src]="GetImage( 'Slides',slide.image) " alt="Hero " />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </ng-template>
+</swiper>
+<div class="slider">
+    <div class="slide-track">
+        <div *ngFor="let part of parts" class="slide" [style]="'background-image: url(' + GetImage('Partenaires',part.image)+')'">
+        </div>
+    </div>
+</div>
+
+<div class="ll-service-area ">
+    <div class="container ">
+        <h1 class="ll-service__title text-center font-extralight mb-12">Ateliers - Robotique - Sérvices</h1>
+        <div class="ll-services grid grid-cols-12 gap-8">
+            <div class="ll-service col-span-12 sm:col-span-6 lg:col-span-3">
+                <div class="number">01</div>
+                <h3 class="mb-2">Qualité</h3>
+                <p>Des produits de bonne qualité.</p>
+            </div>
+            <div class="ll-service col-span-12 sm:col-span-6 lg:col-span-3">
+                <div class="number">02</div>
+                <h3 class="mb-2">Prix</h3>
+                <p>Prix adorables avec une marge bénéficiaire raisonable.</p>
+            </div>
+            <div class="ll-service col-span-12 sm:col-span-6 lg:col-span-3">
+                <div class="number">03</div>
+                <h3 class="mb-2">Livraison</h3>
+                <p>Livraison rapide avec paiement à la livraison.</p>
+            </div>
+            <div class="ll-service col-span-12 sm:col-span-6 lg:col-span-3">
+                <div class="number">04</div>
+                <h3 class="mb-2">Confiance</h3>
+                <p>Vos confiances nous poussent à vous donner le meuilleur.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="ll-service-area ">
+    <div class="container ">
+        <div *ngIf="parts && parts.length> 0">
+            <ng-container *ngIf="parts && parts.length > 0">
+                <div class="text-left mb-8">
+                    <h3 class="text-gray-900 text-center">Nos partenaires:</h3>
+                </div>
+                <div class="slider">
+                    <div class="slide-track">
+                        <div *ngFor="let part of parts" class="slide" [style]="'background-image: url(' + GetImage('Partenaires',part.image)+')'">
+
+                            <!-- <img [src]="GetImage( 'Partenaires',part.image) " height="100" width="250" alt="" /> -->
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </ng-container>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<div class="ll-about mt-28 mb-28">
+    <div class="container">
+        <div class="flex flex-wrap">
+            <div class="lg:w-1/2 lg:order-last">
+                <a href="javascript:void(0)" class="ll-about__img relative block">
+                    <img src="assets/images/about.jpg" alt="About" />
+                    <mat-icon class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        play_circle_filled
+                    </mat-icon>
+                </a>
+            </div>
+            <div class="lg:w-1/2 lg:pr-10 mt-8 lg:mt-0 ll-about__text">
+                <h2 class="font-medium">The world's best advice from real practitioners</h2>
+                <div class="mt-12">
+                    <h5 class="font-medium text-black">Partly real practitioners as consultants</h5>
+                    <p class="mt-1">With us, practitioners advise who were previously advised and who are now passing on this knowledge.
+                    </p>
+                </div>
+                <div class="mt-8">
+                    <h5 class="font-medium text-black">Not salespeople, but solution providers</h5>
+                    <p class="mt-1">With us you advise consultants who also implement the solutions, not just sell them.
+                    </p>
+                </div>
+                <div class="mt-8">
+                    <h5 class="font-medium text-black">Without a journey, we “call” in</h5>
+                    <p class="mt-1">With us, there is no need to travel to the advice center and thus the part that no consultant likes.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <ll-home-products></ll-home-products> -->
+<!-- Categories -->
+<div class="ll-service-area mb-0 pb-0 mt-0 pt-0">
+    <div class="container ">
+        <div *ngIf="parts && parts.length> 0">
+            <div class="text-left mb-8">
+                <h3><a class="text-gray-900">Nos catégories proposées</a></h3>
+                <p><a class="text-gray-700" [routerLink]="['/categories']">Voir toutes les catégories</a></p>
+            </div>
+            <swiper [lazy]="true" [navigation]="true" [slidesPerView]="1" [spaceBetween]="30" [pagination]="{clickable: true}" [breakpoints]="{
+                    '640': {
+                      slidesPerView: 1,
+                      spaceBetween: 20
+                    },
+                    '768': {
+                      slidesPerView: 3,
+                      spaceBetween: 40
+                    },
+                    '1024': {
+                      slidesPerView: 4,
+                      spaceBetween: 50
+                    }
+                  }" class="mySwiper">
+                <ng-template swiperSlide *ngFor="let cat of somCats">
+                    <div class="product-grid">
+                        <div class="product-image" [routerLink]="['/categories',cat.idCategorie]">
+                            <div class="h-80 img-hover-zoom">
+                                <img style="height: 100%;object-fit: cover;" [src]="GetImage('Categories', cat.path)" (error)="GetErrorImage($event)">
+                            </div>
+                            <a [routerLink]="['/categories',cat.idCategorie]" class="add-to-cart">Voir détails</a>
+                        </div>
+                        <div class="product-content">
+                            <h3 style="white-space: nowrap; overflow:hidden;" class="title"><a [routerLink]="['/categories',cat.idCategorie]">{{ cat.libelle
+                                    }}</a></h3>
+                            <div class="category" style="white-space: nowrap; overflow:hidden;">{{ cat.description }}
+                            </div>
+                            <!-- <div class="price" style="white-space: nowrap; overflow:hidden;">
+                                {{GetPrices(product.idProduitNavigation.optionsProduit)}}
+                            </div> -->
+                        </div>
+                    </div>
+                </ng-template>
+            </swiper>
+        </div>
+    </div>
+</div>
+
+<!--Produits-->
+<div class="ll-service-area mb-0 pb-0 mt-0 pt-0">
+    <div class="container ">
+        <div *ngIf="parts && parts.length> 0">
+            <div class="text-left mb-8">
+                <h3><a class="text-gray-900">Nos produits proposés</a></h3>
+                <p><a class="text-gray-700" [routerLink]="['/products']">Voir tous les produits</a></p>
+            </div>
+            <swiper [lazy]="true" [navigation]="true" [slidesPerView]="1" [spaceBetween]="30" [pagination]="{clickable: true}" [breakpoints]="{
+                    '640': {
+                      slidesPerView: 1,
+                      spaceBetween: 20
+                    },
+                    '768': {
+                      slidesPerView: 3,
+                      spaceBetween: 40
+                    },
+                    '1024': {
+                      slidesPerView: 4,
+                      spaceBetween: 50
+                    }
+                  }" class="mySwiper">
+                <ng-template swiperSlide *ngFor="let prod of somProds">
+                    <div class="product-grid">
+                        <div class="product-image" [routerLink]="['/products',prod.idProduit]">
+                            <div class="h-80 img-hover-zoom">
+                                <img style="height: 100%;object-fit: cover;" [src]="GetImage('Produits', prod.photosProduit[0].path)" (error)="GetErrorImage($event)">
+                            </div>
+                            <a [routerLink]="['/products',prod.idProduit]" class="add-to-cart">Voir détails</a>
+                        </div>
+                        <div class="product-content">
+                            <h3 style="white-space: nowrap; overflow:hidden;" class="title"><a [routerLink]="['/products',prod.idProduit]">{{ prod.designation
+                                    }}</a></h3>
+                            <div class="category" style="white-space: nowrap; overflow:hidden;">{{ prod.description }}
+                            </div>
+                            <div class="price" style="white-space: nowrap; overflow:hidden;">
+                                {{GetPrices(prod.optionsProduit)}}
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </swiper>
+            <br>
+        </div>
+    </div>
+</div>
+<!--Projets-->
+<div class="ll-service-area mb-0 pb-0 mt-0 pt-0">
+    <div class="container ">
+        <div *ngIf="parts && parts.length> 0">
+            <div class="text-left mb-8">
+                <h3><a class="text-gray-900">Nos projets proposés</a></h3>
+                <p><a class="text-gray-700" [routerLink]="['/projets']">Voir tous les projets</a></p>
+            </div>
+            <swiper [lazy]="true" [navigation]="true" [slidesPerView]="1" [spaceBetween]="30" [pagination]="{clickable: true}" [breakpoints]="{
+                    '640': {
+                      slidesPerView: 1,
+                      spaceBetween: 20
+                    },
+                    '768': {
+                      slidesPerView: 3,
+                      spaceBetween: 40
+                    },
+                    '1024': {
+                      slidesPerView: 4,
+                      spaceBetween: 50
+                    }
+                  }" class="mySwiper">
+                <ng-template swiperSlide *ngFor="let proj of somProjs">
+                    <div class="product-grid">
+                        <div class="product-image" [routerLink]="['/projets',proj.idProjet]">
+                            <div class="h-80 img-hover-zoom">
+                                <img style="height: 100%;object-fit: cover;" [src]="GetImage('Projets', proj.photosProjet[0].path)" (error)="GetErrorImage($event)">
+                            </div>
+                            <a [routerLink]="['/projets',proj.idProjet]" class="add-to-cart">Voir détails</a>
+                        </div>
+                        <div class="product-content">
+                            <h3 style="white-space: nowrap; overflow:hidden;" class="title"><a [routerLink]="['/projets',proj.idProjet]">{{ proj.libelle
+                                    }}</a></h3>
+                            <div class="category" style="white-space: nowrap; overflow:hidden;">{{ proj.description }}
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </swiper>
+            <br>
+        </div>
+    </div>
+</div>
+
+<div class="ll-service-area ">
+    <div class="container ">
+        <div *ngIf="parts && parts.length> 0">
+            <ng-container *ngIf="parts && parts.length > 0">
+                <div class="text-left mb-8">
+                    <h3 class="text-gray-900 text-center">Nos partenaires:</h3>
+                </div>
+                <swiper [lazy]="true" [slidesPerView]="1" [spaceBetween]="30" pagination [breakpoints]="{
+                    '640': {
+                      slidesPerView: 1,
+                      spaceBetween: 20
+                    },
+                    '768': {
+                      slidesPerView: 3,
+                      spaceBetween: 40
+                    },
+                    '1024': {
+                      slidesPerView: 4,
+                      spaceBetween: 50
+                    }
+                  }" [autoplay]="{
+                    delay: 4000,
+                    disableOnInteraction: false
+                  }" class="mySwiper">
+                    <ng-template swiperSlide *ngFor="let part of parts">
+                        <ng-container *ngIf="part.siteWeb">
+                            <a [href]="'https://' + part.siteWeb" [title]="part.siteWeb" target="_blank">
+                                <div id="stefets-picture" class="h-52 imgSlide" [style]="'background-image: url(' + GetImage('Partenaires',part.image)+')'">
+                                </div>
+                            </a>
+                        </ng-container>
+                        <ng-container *ngIf="!part.siteWeb">
+                            <div id="stefets-picture" class="h-52 imgSlide" [style]="'background-image: url(' + GetImage('Partenaires',part.image)+')'">
+                            </div>
+                        </ng-container>
+                    </ng-template>
+                </swiper>
+                <br>
+            </ng-container>
+        </div>
+    </div>
+</div>
+<div class="ll-process-area bg-black mt-16">
+    <div class="container">
+        <h2 class="ll-process__title text-center text-warn mb-8">How it works</h2>
+        <div class="ll-processes grid grid-cols-12 gap-8">
+            <div class="ll-process col-span-12 sm:col-span-6 lg:col-span-3">
+                <div class="number">01</div>
+                <h3 class="mb-2 text-warn font-bold">Choose</h3>
+                <p class="text-white">You choose the micro-service that you need right now.</p>
+            </div>
+            <div class="ll-process col-span-12 sm:col-span-6 lg:col-span-3">
+                <div class="number">02</div>
+                <h3 class="mb-2 text-warn font-bold">Book</h3>
+                <p class="text-white">You choose the micro-service that you need right now.</p>
+            </div>
+            <div class="ll-process col-span-12 sm:col-span-6 lg:col-span-3">
+                <div class="number">03</div>
+                <h3 class="mb-2 text-warn font-bold">Contact</h3>
+                <p class="text-white">You choose the micro-service that you need right now.</p>
+            </div>
+            <div class="ll-process col-span-12 sm:col-span-6 lg:col-span-3">
+                <div class="number">04</div>
+                <h3 class="mb-2 text-warn font-bold">Execution</h3>
+                <p class="text-white">You choose the micro-service that you need right now.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="pt-20 ll-starter">
+    <div class="container">
+        <h2 class="text-center mb-16 xl:mb-0">Start with you desire</h2>
+        <div class="grid xl:grid-cols-2 gap-x-8 mt-10">
+            <div class="ll-starter__card px-5 grid grid-cols-12 place-items-center">
+                <div class="col-span-5 px-5">
+                    <img class="-mt-14" src="assets/images/starter-01.png" alt="" />
+                </div>
+                <div class="py-5 col-span-7">
+                    <h4 class="text-white mb-4">Start as a buyer</h4>
+                    <p class="text-white mb-7">
+                        Become part of your Lieblings services and book the micro-service that will help your production company at any time.
+                    </p>
+                    <a [routerLink]="['/auth/signup']" routerLinkActive="router-link-active" mat-flat-button color="warn" class="font-semibold">Join Now</a>
+                </div>
+            </div>
+            <div class="ll-starter__card px-5 grid grid-cols-12 place-items-center mt-16 xl:mt-0">
+                <div class="col-span-5 px-5">
+                    <img class="-mt-14" src="assets/images/starter-02.png" alt="" />
+                </div>
+                <div class="py-5 col-span-7 order-first text-right">
+                    <h4 class="text-white mb-4">Start as a consultant</h4>
+                    <p class="text-white mb-7">
+                        Become part of your Lieblings services and book the micro-service that will help your production company at any time.
+                    </p>
+                    <a [routerLink]="['/auth/signup']" routerLinkActive="router-link-active" mat-flat-button color="warn" class="font-semibold">Join Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

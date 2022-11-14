@@ -1,0 +1,19 @@
+.sidenav {
+    width: 280px;
+}
+
+* {
+    // background: linear-gradient(0deg, #0d47a1 40%, rgba(13, 71, 161, 0) 100%);
+    background: url('../../../../assets/images/bg.png') !important;
+}
+
+.logo {
+    height: 100px;
+    margin-left: 0.5em;
+}
+
+.active-list-item {
+    color: #0F9E95 !important;
+    font-weight: bolder !important;
+    /* Note: You could also use a custom theme */
+}

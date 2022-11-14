@@ -1,0 +1,108 @@
+<div class="border bg-white mt-8 rounded-md">
+    <div class="flex p-4 bg-blue-400">
+        <h6 class="text-normal">Informations de l'entreprise :</h6>
+        <!-- <button class="text-blue-400 hover:text-accent ml-auto flex items-center">
+            <mat-icon class="_edit_icon mr-2">edit</mat-icon>
+            Éditer
+        </button> -->
+    </div>
+    <div class="row p-4">
+        <div class="col-md-4">
+            <mat-form-field class="w-full" appearance="outline">
+                <mat-label>Raison sociale:</mat-label>
+                <input matInput placeholder="Raison sociale" [(ngModel)]="entreprise.raisonSociale" [ngModelOptions]="{standalone:true}">
+            </mat-form-field>
+        </div>
+        <div class="col-md-8">
+            <mat-form-field class="w-full" appearance="outline">
+                <mat-label>Description de l'entreprise:</mat-label>
+                <input matInput placeholder="Description" [(ngModel)]="entreprise.description" [ngModelOptions]="{standalone:true}">
+            </mat-form-field>
+        </div>
+        <div class="col-md-12">
+            <mat-form-field class="w-full" appearance="outline">
+                <mat-label>Localisation:</mat-label>
+                <input matInput placeholder="Localisation" [(ngModel)]="entreprise.postitionMaps" [ngModelOptions]="{standalone:true}">
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="pl-4 pr-4 pt-4">
+        <div role="alert" class="alert alert-secondary">
+            <div class="row">
+                <ng-container *ngFor="let item of entreprise.monEntrepriseAdresses; let i = index;">
+                    <div class="col-md-5">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Adresse {{i + 1}}:
+                            </mat-label>
+                            <input matInput placeholder="Adresse" [(ngModel)]="item.adresse" [ngModelOptions]="{standalone: true}">
+                            <button mat-button matSuffix mat-icon-button (click)="deleteAdresse(i)">
+                                <!-- aria-label="Clear" *ngIf="tabNumInscrip"-->
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </mat-form-field>
+                    </div>
+                </ng-container>
+                <div class="col-md-1 uk-vertical-align-middle">
+                    <button title="Ajouter" mat-mini-fab color="primary" type="button" (click)="addAdresse()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pl-4 pr-4 pt-4">
+        <div role="alert" class="alert alert-secondary">
+            <div class="row">
+                <ng-container *ngFor="let item of entreprise.monEntrepriseTelephones; let i = index;">
+                    <div class="col-md-5">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Tél {{i + 1}}:
+                            </mat-label>
+                            <input matInput placeholder="Tél" [(ngModel)]="item.tel" [ngModelOptions]="{standalone: true}">
+                            <button mat-button matSuffix mat-icon-button (click)="deleteTel(i)">
+                                <!-- aria-label="Clear" *ngIf="tabNumInscrip"-->
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </mat-form-field>
+                    </div>
+                </ng-container>
+                <div class="col-md-1 uk-vertical-align-middle">
+                    <button title="Ajouter" mat-mini-fab color="primary" type="button" (click)="addTel()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pl-4 pr-4 pt-4">
+        <div role="alert" class="alert alert-secondary">
+            <div class="row">
+                <ng-container *ngFor="let item of entreprise.monEntrepriseEmails; let i = index;">
+                    <div class="col-md-5">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Email {{i + 1}}:
+                            </mat-label>
+                            <input matInput placeholder="Email" [(ngModel)]="item.email" [ngModelOptions]="{standalone: true}">
+                            <button mat-button matSuffix mat-icon-button (click)="deleteEmail(i)">
+                                <!-- aria-label="Clear" *ngIf="tabNumInscrip"-->
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </mat-form-field>
+                    </div>
+                </ng-container>
+                <div class="col-md-1 uk-vertical-align-middle">
+                    <button title="Ajouter" mat-mini-fab color="primary" type="button" (click)="addEmail()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex p-4 bg-gray-200">
+        <button type="button" (click)="submit()" class="ml-auto" mat-flat-button color="primary">Valider les
+            modifications</button>&nbsp;
+    </div>
+</div>

@@ -1,0 +1,71 @@
+<div>
+    <mat-sidenav-container class="kl-sidenav-container">
+        <mat-sidenav #sidenav [opened]="false" [mode]="'over'" [fixedInViewport]="isLessThenLargeDevice">
+            <div class="rounded-md border overflow-hidden w-72">
+                <div class="user text-center bg-primary py-10 px-5">
+                    <img class="ml-auto mr-auto" src="assets/images/avatar.png" alt="abraham lincoln" />
+                    <h4 class="text-base text-white mt-3">{{user.nom | uppercase}} {{user.prenom | titlecase}}</h4>
+                </div>
+                <mat-nav-list class="_sidenav">
+                    <a mat-list-item (click)="sidenav.close()" *ngFor="let item of myRoutes" [routerLink]="item.route" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="bg-gray-200" class="font-semibold text-gray-500 hover:text-primary">
+                        <mat-icon class="mr-2">{{item.icon}}</mat-icon> {{item.libelle}}
+                    </a>
+                    <a mat-list-item class="font-semibold text-gray-500 hover:text-primary" (click)="SeDeconnecter()">
+                        <mat-icon class="mr-2">logout</mat-icon> Se déconnecter
+                    </a>
+                </mat-nav-list>
+            </div>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <header class="ll_header bg-gray-50 shadow">
+                <div class="container" style="max-width: 95%!important;">
+                    <div class="flex items-center">
+                        <div class="flex items-center">
+                            <a class="logo" [routerLink]="['']"><img src="assets/images/logo.gif" alt="Logo" /></a>
+                        </div>
+                        <button *ngIf="isLessThenLargeDevice" (click)="sidenav.toggle()" class="_sidenav__toggler ml-3 ms-sm-3" mat-icon-button>
+                            <mat-icon>menu</mat-icon>
+                        </button>
+                        <div class="items-center flex ml-auto">
+                            <button mat-icon-button>
+                                <mat-icon>notifications</mat-icon>
+                            </button>
+                            <button mat-icon-button [routerLink]="['profile']">
+                                <mat-icon>account_circle</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div>
+                <div class="container" style="max-width: 95%!important;">
+                    <div class="grid grid-cols-12 gap-8">
+                        <div class="col-span-3 hidden xl:block">
+                            <div class="py-5 min-h-screen">
+                                <div class="rounded-md border overflow-hidden h-full">
+                                    <div class="user text-center bg-primary py-10 px-5">
+                                        <img class="ml-auto mr-auto" src="assets/images/avatar.png" alt="abraham lincoln" />
+                                        <h4 class="text-white mt-3">{{user.nom | uppercase}} {{user.prenom | titlecase}}
+                                        </h4>
+                                    </div>
+                                    <mat-nav-list class="_sidenav">
+                                        <a mat-list-item *ngFor="let item of myRoutes" [routerLink]="item.route" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="bg-gray-200" class="font-semibold text-gray-500 hover:text-primary">
+                                            <mat-icon class="mr-2">{{item.icon}}</mat-icon> {{item.libelle}}
+                                        </a>
+                                        <a mat-list-item class="font-semibold text-gray-500 hover:text-primary" (click)="SeDeconnecter()">
+                                            <mat-icon class="mr-2">logout</mat-icon> Se déconnecter
+                                        </a>
+                                    </mat-nav-list>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-span-12 xl:col-span-9 py-10">
+                            <router-outlet></router-outlet>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

@@ -1,0 +1,212 @@
+<header class="ll_header pt-1 pb-1" [class.top-fixed]="topFixed" [ngClass]="{ 'bg-gray-50 shadow': topFixed && isScrolled }">
+    <div class="container">
+        <div class="d-flex items-center">
+            <div>
+                <a class="logo" [routerLink]="['']"><img class="max-h-20" src="assets/images/logo.gif" alt="Logo" /></a>
+            </div>
+            <div>
+                <ul class="nav" *ngIf="!isLessThenLargeDevice && menuList && menuList.length">
+                    <li class="nav-item" *ngFor="let menu of menuList" (mouseover)="hover = menu.name" (mouseleave)="hover = false">
+                        <a [ngClass]="{ atelier: menu.name == 'Ateliers' }" class="nav-link">
+                            <!--text-gray-800-->
+                            <a mat-button [ngClass]="hover ? { atelier_hov: menu.name == hover && menu.name == 'Ateliers' } : ''" [routerLink]="[menu.path]" routerLinkActive="bg-gray-100" class="text-lg font-bold py-2">{{ menu.name }}</a
+              >
+            </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="ml-auto">
+                <ul class="nav" *ngIf="!isLessThenLargeDevice && menuList && menuList.length">
+                    <li class="nav-item navbar-right">
+                        <a class="nav-link text-gray-800 text-lg font-bold py-2">
+                            <div>
+                                <button (click)="ToggleSidebar('myDIV1')" class="btn" type="button">
+                  <mat-icon class="icon-display">shopping_cart</mat-icon>
+                  <span class="badge badge-dark" *ngIf="myPanier && myPanier.panier && myPanier.panier.produits">{{
+                    myPanier.panier.produits.length
+                  }}</span>
+                </button>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <ul class="nav ml-auto" *ngIf="isLessThenLargeDevice && menuList && menuList.length">
+                <li class="nav-item">
+                    <a class="nav-link text-gray-800 text-lg font-bold py-2 px-0">
+                        <div class="dropdown">
+                            <button id="btn_shart" (click)="ToggleSidebar('myDIV1')" class="btn btn-secondary" type="button">
+                <mat-icon class="icon-display1">shopping_cart</mat-icon>
+                <span class="badge badge-light" *ngIf="myPanier && myPanier.panier && myPanier.panier.produits">{{
+                  myPanier.panier.produits.length
+                }}</span>
+              </button>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link align-middle text-gray-800 text-lg font-bold py-2 px-4">
+                        <button *ngIf="isLessThenLargeDevice" (click)="toggleSidenav.emit()" class="_sidenav__toggler ml-auto md:ml-3 ms-sm-3 align-middle" mat-icon-button>
+              <mat-icon>menu</mat-icon>
+            </button>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+<!-- box add to cart page -->
+
+<!-- box command -->
+<div id="myDIV1" class="myDIVclose" style="z-index: 9999">
+    <div class="title_box">
+        <div class="div_icon">
+            <span>
+        <img class="iconleft invisible" (click)="ToggleSidebar('myDIV2')" />
+      </span>
+            <span>
+        <img src="../../../../assets/images/Images/Groupe 1459.png" class="iconright" (click)="closeAll()" />
+      </span>
+        </div>
+        <div class="div_MesCommandes">
+            <span *ngIf="this.myPanier.panier.produits.length > 0">Mon panier: </span>
+            <span *ngIf="this.myPanier.panier.produits.length <= 0">Mon panier est vide.</span>
+        </div>
+    </div>
+    <ng-container *ngIf="this.myPanier.panier.produits.length > 0">
+        <div id="items" class="items">
+            <div *ngFor="let item of this.myPanier.panier.produits; let i = index" id="item">
+                <div class="item" style="color: #fff">
+                    <div class="div_image_item">
+                        <img [src]="GetImageProduit(item.image)" (error)="GetErrorImage($event)" class="image_item rounded-l-xl" />
+                    </div>
+                    <div class="div_Num_item h-full d-flex flex-column justify-content-around">
+                        <div class="m-auto">
+                            <img (click)="addQte(i)" src="../.." src="../../../../assets/images/Images/up-arrow.png" class="plus-item" style="height: 10px; width: 10px; cursor: pointer" />
+                        </div>
+                        <div class="m-auto user-select-none">{{ item.quantite }}</div>
+                        <div class="m-auto user-select-none">
+                            <img (click)="reduceQte(i, item)" src="../../../../assets/images/Images/down-arrow.png" class="subtract-item" style="height: 10px; width: 10px; cursor: pointer" />
+                        </div>
+                    </div>
+                    <div class="div_Nom_item">
+                        <div>{{ item.libelle }}</div>
+                        <div class="text-gray-300">{{ item.type + ': ' + item.option }}</div>
+                        <div class="text-gray-400">Prix unitaire: {{ item.prixUnitaire | milleSep }} MAD</div>
+                    </div>
+                    <div class="div_Price_item">{{ item.prixUnitaire * item.quantite | milleSep }} MAD</div>
+                    <div (click)="deleteProd(i)" class="div_Remove_item">
+                        <img src="../../../../assets/images/Images/remove.png" class="icon_remove_item delete-item" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="this.myPanier.panier.produits.length <= 0">
+        <div id="items" class="items d-flex align-items-center">
+            <div class="m-auto">
+                <img src="../../../../assets/images/Images/panier_vide.png" alt="" />
+            </div>
+        </div>
+    </ng-container>
+    <div class="div_footer">
+        <div class="div_footer_total">
+            <p id="p_subtitle" class="div_footer_para">
+                <span>Total sans livraison:</span> <span style="float: right" id="price">{{ getSomme() }} MAD</span>
+            </p>
+            <p class="div_footer_para"><span>Livraison:</span> <span style="float: right" id="price_liv">0 MAD</span></p>
+            <div class="line"></div>
+            <p class="div_footer_Total">
+                <span>Total:</span> <span style="float: right" class="total-cart">{{ getSomme() }} MAD</span>
+            </p>
+            <div>
+                <div class="row">
+                    <div class="col-5 col-sm-5 col-md-5 col-lg-5">
+                        <button class="div_footer_button_vider_panier" (click)="ViderPanier()">Vider le panier</button>
+                    </div>
+                    <div class="col-7 col-sm-7 col-md-7 col-lg-7">
+                        <button class="div_footer_button" (click)="ToggleSidebar('myDIV2')">Poursuivre la commande</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end box command -->
+
+<!-- box confirm the command -->
+<div id="myDIV2" class="myDIVclose" style="z-index: 9999">
+    <div class="title_box" *ngIf="!onsub">
+        <div class="div_icon">
+            <span>
+        <img src="../../../../assets/images/Images/arrow.png" class="iconleft" (click)="ToggleSidebar('myDIV2')" />
+      </span>
+            <span>
+        <img src="../../../../assets/images/Images/Groupe 1459.png" class="iconright" (click)="closeAll()" />
+      </span>
+        </div>
+        <div class="div_MesCommandes_conf">
+            <img class="rounded-md max-h-24" src="../../../../assets/images/logo_bg_white.gif" />
+            <h1 class="Title_reserv">Vous recevrez la commande dès que possible.</h1>
+            <!-- <p class="div_footer_para" *ngIf="onsub">
+                Votre commande est en cours de traitement, veuillez patienter quelques instants, merci.
+            </p> -->
+            <p class="div_footer_para" *ngIf="!onsub">Veuillez remplir vos coordonnées de livraison.</p>
+        </div>
+    </div>
+    <ng-container *ngIf="!onsub">
+        <div id="items" class="items py-0 px-8">
+            <div class="inputs">
+                <form>
+                    <input required id="full_name" type="text" class="input_text" placeholder="Nom:" [(ngModel)]="myPanier.panier.infosLivraison.nomComplet" [ngModelOptions]="{ standalone: true }" />
+                    <input id="full_name" type="tel" class="input_text" placeholder="Tél:" [(ngModel)]="myPanier.panier.infosLivraison.numTel" [ngModelOptions]="{ standalone: true }" />
+                    <input id="full_name" type="text" class="input_text" placeholder="Ville:" [(ngModel)]="myPanier.panier.infosLivraison.ville" [ngModelOptions]="{ standalone: true }" />
+                </form>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="onsub">
+        <div id="items" class="items d-flex align-items-center">
+            <div class="m-auto">
+                <img src="../../../../assets/images/Images/load_9.gif" alt="" />
+            </div>
+        </div>
+    </ng-container>
+    <div class="div_footer">
+        <div class="line"></div>
+        <div class="div_footer_total">
+            <p class="div_footer_Total">
+                <span>Total sans frais de livraison:</span>
+                <span style="float: right" class="total-cart">{{ getSomme() | milleSep }} MAD</span>
+            </p>
+            <button [disabled]="onsub" class="div_footer_button" (click)="ToggleSidebar('myDIV3')">
+        <ng-container *ngIf="!onsub">Confirmer la commande</ng-container>
+        <ng-container *ngIf="onsub">Commande en traitement...</ng-container>
+      </button>
+        </div>
+    </div>
+</div>
+<!-- end box confirm the command -->
+
+<!-- box the command confirm -->
+<div id="myDIV3" class="myDIVclose" (click)="closeAll()" style="z-index: 9999">
+    <span>
+    <img src="../../../../assets/images/Images/Groupe 1459.png" class="iconright rounded" (click)="closeAll()" />
+  </span>
+    <div class="container_done">
+        <img src="../../../../assets/images/logo_bg_white.gif" />
+        <div class="circel1">
+            <div class="circel2">
+                <div class="circel3">
+                    <img src="../../../../assets/images/Images/Icon ionic-ios-happy.png" alt="happy" class="img_happy" />
+                </div>
+            </div>
+        </div>
+        <h1 class="pra-pass-cmd">Vous avez passé la commande avec succès.</h1>
+        <p class="div_footer_para text-gray-400">Nous allons vous contacter par téléphone, merci</p>
+    </div>
+</div>
+<!-- end box the command confirm -->
+
+<!--end box add to cart page -->

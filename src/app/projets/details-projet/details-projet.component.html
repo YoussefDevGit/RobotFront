@@ -1,0 +1,96 @@
+<div class="pt-52 pb-32 bg-gray-100 text-center">
+    <div class="container">
+        <!-- <h3>Projet: {{projet.libelle | titlecase}}</h3> -->
+        <nav class="breadcrumb flex justify-center items-center">
+            <a class="px-1 mr-3 text-gray-500 hover:text-black" [routerLink]="'/'">Retour à l'accueil</a>
+            <a class="px-1" [routerLink]="'/projets'" class="text-accent">Projets</a>
+        </nav>
+    </div>
+    <div class="container">
+        <div class="card">
+            <div class="row">
+                <div class="col-md-8 cart">
+                    <div class="title">
+                        <div class="row">
+                            <div class="col">
+                                <h4><b>Les composantes du projet:</b></h4>
+                            </div>
+                            <div *ngIf="projet.applicationsProduit" class="col align-self-center text-right text-muted">
+                                {{projet.applicationsProduit.length}} articles
+                            </div>
+                        </div>
+                    </div>
+                    <ng-container *ngFor="let opt of produitsPanier let isLast = last;">
+                        <div [class]="'row border-top' + (isLast ? ' border-bottom': '')">
+                            <div class="row main align-items-center">
+                                <div class="col-2">
+                                    <img class="img-fluid w-full" [src]="GetImageProduit(opt.image)" (error)="GetErrorImage($event)">
+                                </div>
+                                <div class="col">
+                                    <div class="row">
+                                        <!-- {{ opt.libelle }} -->
+                                        <a title="Voir details produit" class="text-left hover:underline" [routerLink]="['/products',opt.idProd]">
+                                            {{ opt.libelle }}
+                                        </a>
+                                    </div>
+                                    <div class="row text-muted overflow-hidden whitespace-nowrap overflow-ellipsis" [title]="opt.description">
+                                        {{opt.description}}
+                                    </div>
+                                    <div class="row text-muted" [title]="opt.description">
+                                        Prix unitaire: {{opt.prixUnitaire}} MAD
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <a class="font-bold" (click)="reduceQuantite(opt)" href="javascript:void(0)">-</a>
+                                    <a class="border">{{opt.quantite}}</a>
+                                    <a class="font-bold" (click)="addQuantite (opt)" href="javascript:void(0)">+</a>
+                                </div>
+                                <div class="col">
+                                    {{opt.prixUnitaire*opt.quantite}} MAD
+                                    <span (click)="setQuantiteZero(opt)" class="cursor-pointer close">&#10005;</span>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <div class="back-to-shop">
+                        <span (click)="setProductPanier()" class="hover:font-bold cursor-pointer text-muted">Réinitialiser les quantités</span>
+                    </div>
+
+                </div>
+                <div class="col-md-4 summary">
+                    <div>
+                        <h5><b>{{projet.libelle}}</b></h5>
+                        <h6>
+                            <div class="text-muted">
+                                Ajouté le {{projet.dateAjout | date : 'dd/MM/yyyy'}}
+                            </div>
+                        </h6>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col max-h-36 overflow-hidden overflow-ellipsis hover:max-h-screen hover:overscroll-contain">
+                            {{projet.description}}</div>
+                        <!-- <div class="col text-right">&euro; 132.00</div> -->
+                    </div>
+                    <form>
+                        <p>Mode de paiement:</p> <select disabled>
+                            <option class="text-muted">Paiement à la livraison</option>
+                        </select>
+                        <!-- <p>GIVE CODE</p> <input id="code" placeholder="Enter your code"> -->
+                    </form>
+                    <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                        <div class="col">Montant total :</div>
+                        <div class="col text-right font-bold">{{getSomme()}} MAD</div>
+                    </div> <button class="btn text-2xl font-bold" (click)="addToCart()">Ajouter au panier </button>
+                    <div *ngIf="added || invalidSelect" class="mt-4">
+                        <div *ngIf="added" class="alert alert-success" role="alert">Les produits sont ajoutés avec succes au panier.
+                        </div>
+                        <div *ngIf="invalidSelect" class="alert alert-danger" role="alert">Veuillez ajouter au moins un produit au panier.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

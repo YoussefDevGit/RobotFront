@@ -1,0 +1,62 @@
+.marg-top-20 {
+    margin-top: 20px !important;
+}
+
+.myDanger {
+    background-color: #eb4511;
+    background-image: linear-gradient(315deg, #eb4511 0%, #b02e0c 74%);
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+.noborder:focus {
+    border: none;
+    overflow: hidden;
+    /* outline: none; */
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    /*remove the resize handle on the bottom right*/
+}
+
+:root {
+    --background-call-us-container: #FBEFDF;
+    --background-color-app: #1BA9A0;
+    --background-container-number: #E9CFBD;
+    --color-orange: #F89800;
+    --padding: 5px;
+    --margin: 5px;
+    --margin-nav-items: 20px;
+    --cercle1: #1BA9A0;
+    --cercle2: #4aa8a2;
+    --cercle3: #78C6C1;
+    --my-button-color: white;
+    --my-button-background-color: #5eb9b5;
+    --prim-app-color: #22A097;
+    --prim-app-color-hov: #02b8ab;
+    --my-darken-1: rgb(43, 151, 151);
+    --my-darken-2: #0faaa0;
+    --my-darken-3: #00a89d;
+    --my-border-radius: 5px;
+}
+
+.my-btn-primary {
+    color: var(--my-button-color);
+    background-color: var(--my-button-background-color);
+    border-radius: var(--my-border-radius);
+}
+
+.my-btn-primary:hover {
+    box-shadow: inset 0 0 0 20rem var(--my-darken-1);
+}
+
+.my-btn-primary:active {
+    box-shadow: inset 0 0 0 20rem var(--my-darken-2), inset 0 3px 4px 0 var(--darken-3), 0 0 1px var(--my-darken-2);
+}
+
+.my-btn-primary:disabled,
+.my-btn-primary.is-disabled {
+    opacity: .5;
+}

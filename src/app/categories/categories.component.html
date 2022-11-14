@@ -1,0 +1,91 @@
+<div class="pt-52 pb-32 bg-gray-100 text-center">
+    <div class="container">
+        <h3>Liste de toutes les catégories</h3>
+        <nav class="breadcrumb flex justify-center items-center">
+            <a class="px-1 mr-3 text-gray-500 hover:text-black" [routerLink]="'/'">Retour à l'accueil</a>
+            <!-- <a class="px-1" href="javascript:void(0)" class="text-accent">Catégories</a> -->
+        </nav>
+    </div>
+    <section class="section-products">
+        <div class="container">
+            <div class="row">
+                <ng-container *ngFor="let cat of categories">
+                    <div class="col-md-3">
+                        <div class="product-grid">
+                            <div class="product-image" [routerLink]="[cat.idCategorie]">
+                                <div class="h-80 img-hover-zoom">
+                                    <img style="height: 100%;object-fit: cover;" [src]="GetImage(cat.path)" (error)="GetErrorImage($event)">
+                                </div>
+                                <a [routerLink]="[cat.idCategorie]" class="add-to-cart">Voir détails</a>
+                            </div>
+                            <div class="product-content">
+                                <h3 style="white-space: nowrap; overflow:hidden;" class="title"><a [routerLink]="[cat.idCategorie]">{{ cat.libelle
+                                        }} {{cat.count}}</a></h3>
+                                <div class="category" style="white-space: nowrap; overflow:hidden;">{{ cat.description }}
+                                </div>
+                                <!-- <div class="price" style="white-space: nowrap; overflow:hidden;">
+                                    {{GetPrices(product.idProduitNavigation.optionsProduit)}}
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="!categories || categories.length <= 0">
+                    <div class="col-md-3 col-sm-12 col-lg-3" *ngFor="let item of [1,2,3,4]">
+                        <ngx-skeleton-loader count="1" appearance="circle" [theme]="{ 
+                      'border-radius': '5px',
+                      height: '280px',
+                      width: 'calc(100% - 5px)'
+                    }"></ngx-skeleton-loader>
+                    </div>
+                </ng-container>
+
+            </div>
+        </div>
+    </section>
+    <!-- <div class="container">
+        <ng-container *ngFor="let cat of categories">
+            <div class="text-left mb-8">
+                <h3><a class="text-gray-900" [routerLink]="[cat.idCategorie]">{{cat.libelle}}</a></h3>
+                <p><span *ngIf="cat.description"></span>{{cat.description}}</p>
+            </div>
+            <swiper [lazy]="true" [navigation]="true" [slidesPerView]="1" [spaceBetween]="30" [pagination]="{clickable: true}" [breakpoints]="{
+                '640': {
+                  slidesPerView: 1,
+                  spaceBetween: 20
+                },
+                '768': {
+                  slidesPerView: 3,
+                  spaceBetween: 40
+                },
+                '1024': {
+                  slidesPerView: 4,
+                  spaceBetween: 50
+                }
+              }" class="mySwiper">
+                <ng-template swiperSlide *ngFor="let product of cat.categoriesProduit">
+                    <div class="product-grid">
+                        <div class="product-image">
+                            <div class="img-hover-zoom">
+                                <img class="max-h-80 min-h-80" style="object-fit: cover;" [src]="GetImage(product.idProduitNavigation.photosProduit[0].path)" (error)="GetErrorImage($event)">
+                            </div>
+                            <a href="javascript:void(0)" class="add-to-cart">Voir détails</a>
+                        </div>
+                        <div class="product-content">
+                            <h3 style="white-space: nowrap; overflow:hidden;" class="title"><a href="javascript:void(0)">{{ product.idProduitNavigation.designation
+                                    }}</a></h3>
+                            <div class="category" style="white-space: nowrap; overflow:hidden;">{{ product.idProduitNavigation.description }}
+                            </div>
+                            <div class="price" style="white-space: nowrap; overflow:hidden;">
+                                {{GetPrices(product.idProduitNavigation.optionsProduit)}}
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </swiper>
+            <hr>
+            <br>
+        </ng-container>
+    </div> -->
+
+</div>
